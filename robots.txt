@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://ahmedbosaila.github.io/brick-game/sitemap.xml
