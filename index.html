@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Brick Game</title>
+<style>
+body{margin:0;background:#000;overflow:hidden;touch-action:none}
+canvas{display:block;margin:0 auto;background:#111;border:2px solid #FFD700}
+#s{position:absolute;top:10px;left:50%;transform:translateX(-50%);color:#FFD700;font:24px Arial}
+#o{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;display:none;background:rgba(0,0,0,0.9);padding:20px;border:2px solid #FFD700;color:#fff}
+button{background:#FFD700;color:#000;border:none;padding:10px 20px;font-size:18px;margin-top:10px}
+</style>
+</head>
+<body>
+<div id=s>النقاط: 0</div>
+<canvas id=c width=320 height=480></canvas>
+<div id=o><h2>انتهت اللعبة</h2><p id=f>نقاطك: 0</p><button onclick=r()>العب تاني</button></div>
+<script>
+let p=0,G=1,C=document.getElementById('c'),x=C.getContext('2d'),P={x:120,y:460,w:80,h:10},B={x:160,y:450,r:8,dx:4,dy:-4},K=[],R=5,L=8,W=35,H=15,D=5,T=60,E=10;
+for(let i=0;i<L;i++){K[i]=[];for(let j=0;j<R;j++)K[i][j]={x:0,y:0,s:1}}
+function d(){if(!G)return;x.clearRect(0,0,320,480);x.fillStyle='#FFD700';
+for(let i=0;i<L;i++)for(let j=0;j<R;j++){if(K[i][j].s){let X=i*(W+D)+E,Y=j*(H+D)+T;K[i][j].x=X;K[i][j].y=Y;x.fillRect(X,Y,W,H)}}
+x.beginPath();x.arc(B.x,B.y,B.r,0,7);x.fill();x.fillRect(P.x,P.y,P.w,P.h);
+for(let i=0;i<L;i++)for(let j=0;j<R;j++){let k=K[i][j];if(k.s&&B.x>k.x&&B.x<k.x+W&&B.y>k.y&&B.y<k.y+H){B.dy=-B.dy;k.s=0;p+=10;s.textContent='النقاط: '+p;if(p==R*L*10)e(1)}}
+if(B.x+B.dx>320-B.r||B.x+B.dx<B.r)B.dx=-B.dx;if(B.y+B.dy<B.r)B.dy=-B.dy;else if(B.y+B.dy>480-B.r){if(B.x>P.x&&B.x<P.x+P.w)B.dy=-B.dy;else return e(0)}
+B.x+=B.dx;B.y+=B.dy;requestAnimationFrame(d)}
+function e(w){G=0;o.style.display='block';f.textContent=(w?'كسبت! ':'')+'نقاطك: '+p}
+function r(){p=0;s.textContent='النقاط: 0';B.x=160;B.y=450;B.dx=4;B.dy=-4;P.x=120;for(let i=0;i<L;i++)for(let j=0;j<R;j++)K[i][j].s=1;o.style.display='none';G=1;d()}
+C.ontouchmove=C.onmousemove=t=>{let a=C.getBoundingClientRect(),b=(t.touches?t.touches[0].clientX:t.clientX)-a.left;P.x=b-P.w/2;if(P.x<0)P.x=0;if(P.x>240)P.x=240};d()
+</script>
+</body>
+</html>
